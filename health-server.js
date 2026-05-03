@@ -360,11 +360,7 @@ function renderDashboard(data) {
       ? "Cloudflare keep-awake Worker is pending or failed; check Space logs."
       : "Add CLOUDFLARE_WORKERS_TOKEN to create a scheduled keep-awake Worker.";
   const serviceOk = data.gateway && data.dashboard;
-  const topCards = [
-    `<div class="mini-card"><span class="mini-label">Service</span>${toneBadge(serviceOk ? "Running" : "Starting", serviceOk ? "ok" : "warn")}</div>`,
-    `<div class="mini-card"><span class="mini-label">Uptime</span><strong>${escapeHtml(data.uptime)}</strong></div>`,
-    `<div class="mini-card"><span class="mini-label">Backup</span>${toneBadge(syncStatus.toUpperCase(), syncTone)}</div>`,
-  ].join("");
+
   const tiles = [
     renderTile({
       title: "Gateway",
@@ -424,12 +420,8 @@ function renderDashboard(data) {
     header { text-align:center; margin-bottom:22px; }
     h1 { margin:0; font-size:1.65rem; line-height:1; letter-spacing:0; }
     .subtitle { margin-top:12px; color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; font-weight:800; }
-    .hero-action { display:flex; width:100%; min-height:46px; align-items:center; justify-content:center; border-radius:8px; background:var(--accent); color:#fff; text-decoration:none; font-weight:850; font-size:.98rem; margin:24px 0 20px; }
-    .hero-action:hover { background:var(--accent2); }
-    .mini-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:10px; margin-bottom:18px; }
-    .mini-card { min-height:68px; border:1px solid var(--line); background:var(--panel); border-radius:8px; padding:13px; display:flex; flex-direction:column; justify-content:center; gap:9px; }
-    .mini-label { color:var(--muted); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; font-weight:850; }
-    .mini-card strong { font-size:1.02rem; }
+    .hero-action { display:flex; width:100%; min-height:46px; align-items:center; justify-content:center; border-radius:8px; background:#ffffff; color:#000000; text-decoration:none; font-weight:850; font-size:.98rem; margin:24px 0 20px; transition: background 0.15s ease; }
+    .hero-action:hover { background:#e5e5e5; }
     .overview { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin-bottom:10px; }
     .tile { border:1px solid var(--line); background:var(--panel); border-radius:11px; padding:18px; min-height:124px; display:flex; flex-direction:column; gap:10px; position:relative; }
     .tile.ok { border-color:rgba(34,197,94,.22); }
@@ -444,10 +436,7 @@ function renderDashboard(data) {
     .tile-value { font-size:1.12rem; font-weight:850; overflow-wrap:anywhere; }
     .tile-detail { color:var(--soft); line-height:1.45; font-size:.83rem; }
     .tile-meta { color:var(--muted); line-height:1.4; font-size:.75rem; margin-top:auto; overflow-wrap:anywhere; }
-    .panel { border:1px solid var(--line); background:var(--panel2); border-radius:11px; padding:16px; margin-top:18px; }
-    .launch-panel { text-align:center; }
-    .panel-title { color:var(--muted); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; font-weight:850; margin-bottom:8px; }
-    .panel-copy { color:var(--soft); line-height:1.5; font-size:.86rem; margin:0 auto 14px; max-width:560px; }
+
     code { background:#232234; border:1px solid #34324c; border-radius:6px; padding:2px 6px; color:var(--text); font-size:.9em; }
     pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; background:#0d0d0d; border:1px solid var(--line); border-radius:7px; padding:10px; color:var(--soft); font-size:.82rem; line-height:1.45; }
     .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
@@ -461,7 +450,7 @@ function renderDashboard(data) {
     .button.secondary { color:var(--text); background:#242424; border:1px solid var(--line); }
     footer { color:var(--muted); text-align:center; font-size:.74rem; margin-top:18px; }
     footer .live { color:var(--good); }
-    @media (max-width: 700px) { .mini-grid, .overview { grid-template-columns:1fr; } main { width:min(100% - 22px, 720px); padding-top:28px; } }
+    @media (max-width: 700px) { .overview { grid-template-columns:1fr; } main { width:min(100% - 22px, 720px); padding-top:28px; } }
   </style>
 </head>
 <body>
@@ -471,16 +460,8 @@ function renderDashboard(data) {
       <div class="subtitle">Self-hosted - Hugging Face Spaces - Hermes Agent</div>
     </header>
     <a class="hero-action" href="${APP_BASE}/" target="_blank" rel="noopener noreferrer">Open Hermes Agent -></a>
-    <section class="mini-grid">${topCards}</section>
     <section class="overview">
       ${tiles}
-    </section>
-    <section class="panel launch-panel">
-      <div>
-        <div class="panel-title">Hermes Agent</div>
-        <p class="panel-copy">Open the full Hermes Agent dashboard in a new window. You will be asked for only your <code>GATEWAY_TOKEN</code> if your session is not already active.</p>
-      </div>
-      <a class="button" href="${APP_BASE}/" target="_blank" rel="noopener noreferrer">Open Hermes Agent</a>
     </section>
     <footer><span class="live">Live</span> status - Health endpoint: <code>/health</code></footer>
   </main>
