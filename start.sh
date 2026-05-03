@@ -124,6 +124,8 @@ case "$MODEL_PREFIX" in
     ;;
   google|gemini)
     [ -n "$LLM_API_KEY" ] && export GOOGLE_API_KEY="${GOOGLE_API_KEY:-$LLM_API_KEY}" GEMINI_API_KEY="${GEMINI_API_KEY:-$LLM_API_KEY}"
+    [ "$PROVIDER_FOR_CONFIG" = "auto" ] && PROVIDER_FOR_CONFIG="gemini"
+    MODEL_FOR_CONFIG="${MODEL_INPUT#*/}"
     ;;
   deepseek)
     [ -n "$LLM_API_KEY" ] && export DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-$LLM_API_KEY}"

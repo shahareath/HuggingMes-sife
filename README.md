@@ -46,6 +46,50 @@ HuggingMess runs [Nous Research Hermes Agent](https://github.com/NousResearch/he
 | `CLOUDFLARE_WORKERS_TOKEN` | Optional | Auto-creates a Worker proxy for Telegram Bot API traffic |
 | `UPTIMEROBOT_API_KEY` | Optional | Auto-creates a monitor for `/health` |
 
+## LLM Providers
+
+HuggingMess supports two configuration styles:
+
+1. **Simple wrapper style:** set `LLM_MODEL` and `LLM_API_KEY`; HuggingMess maps them into Hermes config and provider-specific API key variables.
+2. **Native Hermes style:** set Hermes variables directly, such as `HERMES_MODEL`, `HERMES_INFERENCE_PROVIDER`, and the provider API key.
+
+### Gemini
+
+For Google Gemini, add these Space secrets:
+
+| Secret | Value |
+| :--- | :--- |
+| `LLM_MODEL` | `google/gemini-2.5-flash` |
+| `LLM_API_KEY` | Your Google AI Studio API key |
+
+HuggingMess will convert that into Hermes config:
+
+```yaml
+model:
+  default: gemini-2.5-flash
+  provider: gemini
+```
+
+And it exports both `GOOGLE_API_KEY` and `GEMINI_API_KEY` for Hermes. You can also use `gemini/gemini-2.5-flash`; the prefix is stripped the same way.
+
+Native Hermes equivalent:
+
+| Secret | Value |
+| :--- | :--- |
+| `HERMES_MODEL` | `gemini-2.5-flash` |
+| `HERMES_INFERENCE_PROVIDER` | `gemini` |
+| `GOOGLE_API_KEY` or `GEMINI_API_KEY` | Your Google AI Studio API key |
+
+### Common Examples
+
+| Provider | Simple `LLM_MODEL` | API key secret |
+| :--- | :--- | :--- |
+| Gemini | `google/gemini-2.5-flash` | `LLM_API_KEY` |
+| OpenRouter | `openrouter/anthropic/claude-sonnet-4` | `LLM_API_KEY` |
+| Anthropic | `anthropic/claude-opus-4.6` | `LLM_API_KEY` |
+| OpenAI | `openai/gpt-4o` | `LLM_API_KEY` |
+| Hugging Face Router | `huggingface/meta-llama/Llama-3.3-70B-Instruct` | `LLM_API_KEY` |
+
 ## Telegram on HF Spaces
 
 When `TELEGRAM_BOT_TOKEN` and `SPACE_HOST` are present, HuggingMess defaults Telegram to webhook mode:
