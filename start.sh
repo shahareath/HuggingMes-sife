@@ -372,3 +372,10 @@ if [ -n "${HF_TOKEN:-}" ]; then
 fi
 
 wait "$GATEWAY_PID"
+
+# Gateway exited (e.g. user restarted from Hermes UI). Sync before container dies.
+# SIGTERM path is handled by graceful_shutdown trap above; this covers natural exit.
+if [ -n "${HF_TOKEN:-}" ]; then
+  echo "Gateway exited — syncing state before shutdown..."
+  python3 "$APP_DIR/hermes-sync.py" sync-once || echo "Warning: final sync failed."
+fi
